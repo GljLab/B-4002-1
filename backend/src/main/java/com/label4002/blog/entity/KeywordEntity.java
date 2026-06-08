@@ -39,8 +39,12 @@ public class KeywordEntity {
 
     @PrePersist
     public void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
         if (createdAt == null) {
-            createdAt = LocalDateTime.now();
+            createdAt = now;
+        }
+        if (updatedAt == null) {
+            updatedAt = now;
         }
     }
 

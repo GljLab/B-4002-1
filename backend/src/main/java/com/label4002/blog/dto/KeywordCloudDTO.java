@@ -12,12 +12,12 @@ public record KeywordCloudDTO(
 ) {
     public static List<KeywordCloudDTO> computeHeat(List<KeywordCloudDTO> keywords) {
         if (keywords.isEmpty()) return keywords;
-        double maxUsage = keywords.stream()
+        double maxUsageRaw = keywords.stream()
                 .mapToDouble(KeywordCloudDTO::usageCount)
                 .max()
                 .orElse(1);
-        if (maxUsage == 0) maxUsage = 1;
-        LocalDateTime now = LocalDateTime.now();
+        final double maxUsage = maxUsageRaw == 0 ? 1 : maxUsageRaw;
+        final LocalDateTime now = LocalDateTime.now();
         return keywords.stream().map(k -> {
             long daysSinceLastUse = k.lastUsedAt != null
                     ? java.time.Duration.between(k.lastUsedAt, now).toDays()
