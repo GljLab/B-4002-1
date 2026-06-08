@@ -18,29 +18,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "posts")
-public class PostEntity {
+@Table(name = "categories")
+public class CategoryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 200)
-    private String title;
+    @Column(nullable = false, length = 100)
+    private String name;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String content;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "author_id", nullable = false)
-    private UserEntity author;
+    @Column(nullable = false, length = 100, unique = true)
+    private String slug;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private CategoryEntity category;
+    @JoinColumn(name = "parent_id")
+    private CategoryEntity parent;
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-    private List<PostKeywordEntity> postKeywords = new ArrayList<>();
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    private List<CategoryEntity> children = new ArrayList<>();
+
+    @Column(nullable = false)
+    private boolean enabled = true;
+
+    @Column(name = "sort_order", nullable = false)
+    private int sortOrder = 0;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -68,44 +70,52 @@ public class PostEntity {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getContent() {
-        return content;
+    public String getSlug() {
+        return slug;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
-    public UserEntity getAuthor() {
-        return author;
+    public CategoryEntity getParent() {
+        return parent;
     }
 
-    public void setAuthor(UserEntity author) {
-        this.author = author;
+    public void setParent(CategoryEntity parent) {
+        this.parent = parent;
     }
 
-    public CategoryEntity getCategory() {
-        return category;
+    public List<CategoryEntity> getChildren() {
+        return children;
     }
 
-    public void setCategory(CategoryEntity category) {
-        this.category = category;
+    public void setChildren(List<CategoryEntity> children) {
+        this.children = children;
     }
 
-    public List<PostKeywordEntity> getPostKeywords() {
-        return postKeywords;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setPostKeywords(List<PostKeywordEntity> postKeywords) {
-        this.postKeywords = postKeywords;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public int getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public LocalDateTime getCreatedAt() {

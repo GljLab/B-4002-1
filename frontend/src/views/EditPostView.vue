@@ -13,6 +13,8 @@ const saving = ref(false)
 const form = reactive({
   title: '',
   content: '',
+  categoryId: null as number | null,
+  keywords: [] as string[],
 })
 
 const postId = computed(() => Number(route.params.id))
@@ -29,6 +31,8 @@ async function loadPost() {
     const detail = await getPostDetail(postId.value)
     form.title = detail.title
     form.content = detail.content
+    form.categoryId = detail.categoryId
+    form.keywords = detail.keywords.map(k => k.name)
   } catch {
     ElMessage.error('文章加载失败')
     await router.replace('/admin')
@@ -48,6 +52,8 @@ async function submit() {
     await updatePost(postId.value, {
       title: form.title.trim(),
       content: form.content.trim(),
+      categoryId: form.categoryId,
+      keywords: form.keywords,
     })
     ElMessage.success('文章编辑成功')
     await router.push('/admin')
@@ -77,6 +83,8 @@ onMounted(loadPost)
       <PostEditor
         v-model:title="form.title"
         v-model:content="form.content"
+        v-model:category-id="form.categoryId"
+        v-model:keywords="form.keywords"
         :loading="saving"
         submit-text="保存修改"
         @submit="submit"

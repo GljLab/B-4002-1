@@ -4,6 +4,10 @@ import PostDetailView from '../views/PostDetailView.vue'
 import LoginView from '../views/LoginView.vue'
 import AdminView from '../views/AdminView.vue'
 import EditPostView from '../views/EditPostView.vue'
+import CategoryNavView from '../views/CategoryNavView.vue'
+import KeywordCloudView from '../views/KeywordCloudView.vue'
+import AdminCategoryView from '../views/AdminCategoryView.vue'
+import AdminKeywordView from '../views/AdminKeywordView.vue'
 import { useAuthStore } from '../stores/auth'
 
 const router = createRouter({
@@ -11,8 +15,12 @@ const router = createRouter({
   routes: [
     { path: '/', name: 'home', component: HomeView },
     { path: '/posts/:id', name: 'post-detail', component: PostDetailView },
+    { path: '/categories', name: 'categories', component: CategoryNavView },
+    { path: '/keywords', name: 'keywords', component: KeywordCloudView },
     { path: '/login', name: 'login', component: LoginView },
     { path: '/admin', name: 'admin', component: AdminView, meta: { requiresAuth: true } },
+    { path: '/admin/categories', name: 'admin-categories', component: AdminCategoryView, meta: { requiresAuth: true } },
+    { path: '/admin/keywords', name: 'admin-keywords', component: AdminKeywordView, meta: { requiresAuth: true } },
     {
       path: '/admin/posts/:id/edit',
       name: 'post-edit',

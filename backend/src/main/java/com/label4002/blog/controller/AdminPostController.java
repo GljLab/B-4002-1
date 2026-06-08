@@ -1,5 +1,7 @@
 package com.label4002.blog.controller;
 
+import com.label4002.blog.dto.BatchAddKeywordsRequest;
+import com.label4002.blog.dto.BatchUpdateCategoryRequest;
 import com.label4002.blog.dto.CreatePostRequest;
 import com.label4002.blog.dto.PostDetailDTO;
 import com.label4002.blog.dto.PostSummaryDTO;
@@ -54,5 +56,15 @@ public class AdminPostController {
     public void delete(@org.springframework.security.core.annotation.AuthenticationPrincipal AppUserPrincipal principal,
                        @PathVariable Long id) {
         postService.deletePost(principal.getId(), id);
+    }
+
+    @PutMapping("/batch/category")
+    public void batchUpdateCategory(@Valid @RequestBody BatchUpdateCategoryRequest request) {
+        postService.batchUpdateCategory(request.postIds(), request.categoryId());
+    }
+
+    @PostMapping("/batch/keywords")
+    public void batchAddKeywords(@Valid @RequestBody BatchAddKeywordsRequest request) {
+        postService.batchAddKeywords(request.postIds(), request.keywords());
     }
 }

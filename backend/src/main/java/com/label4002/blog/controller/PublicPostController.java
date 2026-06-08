@@ -27,9 +27,11 @@ public class PublicPostController {
     @GetMapping
     public PageResponse<PostSummaryDTO> list(
             @RequestParam(defaultValue = "1") @Min(1) int page,
-            @RequestParam(defaultValue = "10") @Min(1) @Max(50) int size
+            @RequestParam(defaultValue = "10") @Min(1) @Max(50) int size,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) Long keywordId
     ) {
-        return postService.listPublic(page, size);
+        return postService.listPublic(page, size, categoryId, keywordId);
     }
 
     @GetMapping("/{id}")

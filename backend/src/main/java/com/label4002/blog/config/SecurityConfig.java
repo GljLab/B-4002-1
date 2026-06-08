@@ -56,6 +56,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/actuator/health", "/actuator/info").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/api/v1/posts", "/api/v1/posts/*").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/v1/categories", "/api/v1/categories/*").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/v1/keywords/cloud").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/v1/keywords/search").permitAll();
                     auth.requestMatchers("/api/v1/auth/login", "/api/v1/token/login", "/api/v1/token/refresh").permitAll();
                     if (testingEnabled) {
                         auth.requestMatchers("/api/testing/**").permitAll();
